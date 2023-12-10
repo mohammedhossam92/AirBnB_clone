@@ -13,7 +13,7 @@ from models.review import Review
 
 
 class HBNBCommand(cmd.Cmd):
-    prompt = '[hbnb] >> '
+    prompt = '(hbnb) '
 
     def error_message(self, msg):
         print(f"Error: {msg}")
