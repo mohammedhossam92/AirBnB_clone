@@ -15,20 +15,15 @@ from models.review import Review
 
 class HBNBCommand(cmd.Cmd):
     """class HBNB that run the console module"""
-    prompt = '(hbnb) ' if sys.__stdin__.isatty() else ''
-
-    def preloop(self):
-        """Prints if isatty is false"""
-        if not sys.__stdin__.isatty():
-            print('(hbnb)')
+    prompt = '(hbnb) '
 
     def error_message(self, msg):
         """funtion to handle error"""
         print(f"Error: {msg}"
 
-    # def emptyline(self):
-      #  """ overwriting the emptyline method """
-      #  return False
+     def emptyline(self):
+        """ overwriting the emptyline method """
+        return False
 
     def get_instance(self, class_name, instance_id):
         """function to get the instance of the class"""
