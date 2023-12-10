@@ -6,7 +6,9 @@ import os
 
 class FileStorage:
     """file storage class"""
+    # string -path to the json
     __file_path = "file.json"
+    # dictionary - empty
     __objects = {}
 
     def all(self):
@@ -15,8 +17,9 @@ class FileStorage:
 
     def new(self, obj):
         """new object added """
-        key = "{}.{}".format(obj.__class__.__name__, obj.id)
-        self.__objects[key] = obj
+        if obj is not None:
+            key = "{}.{}".format(obj.__class__.__name__, obj.id)
+            self.__objects[key] = obj
 
     def save(self):
         """save the data to the file json"""
@@ -30,8 +33,8 @@ class FileStorage:
                 with open(self.__file_path, 'r') as f:
                     # Use 'r' mode for reading text
                     self.__objects = json.load(f)
-        except Exception as e:
-            print("Error reloading data:", e)
+        except FileNotFoundError:
+            pass
 
     def obj_to_dict(self, obj):
         """Convert object to a dictionary."""
