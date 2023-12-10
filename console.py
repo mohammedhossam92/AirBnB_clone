@@ -21,7 +21,7 @@ class HBNBCommand(cmd.Cmd):
         """funtion to handle error"""
         print(f"Error: {msg}")
 
-     def emptyline(self):
+    def emptyline(self):
         """ overwriting the emptyline method """
         return False
 
