@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""importing modules"""
 import cmd
 import json
 import re
@@ -13,16 +14,20 @@ from models.review import Review
 
 
 class HBNBCommand(cmd.Cmd):
+    """class HBNB that run the console module"""
     prompt = '(hbnb) '
 
     def error_message(self, msg):
+        """funtion to handle error"""
         print(f"Error: {msg}")
 
     def get_instance(self, class_name, instance_id):
+        """function to get the instance of the class"""
         key = f"{class_name}.{instance_id}"
         return storage.all().get(key)
 
     def execute_command(self, command, args):
+        """function to excute commands"""
         commands = {
             "create": self.do_create,
             "show": self.do_show,
@@ -39,12 +44,15 @@ class HBNBCommand(cmd.Cmd):
             self.error_message("Invalid command")
 
     def do_quit(self, line):
+        """function to quit"""
         return True
 
     def do_EOF(self, line):
+        """function to exit """
         return True
 
     def do_create(self, line):
+        """function to create new instance"""
         if not line:
             self.error_message("Class name missing")
             return
@@ -62,6 +70,7 @@ class HBNBCommand(cmd.Cmd):
         print(new_instance.id)
 
     def do_show(self, line):
+        """function to show the data of the instance """
         if not line:
             self.error_message("Class name missing")
             return
@@ -82,6 +91,7 @@ class HBNBCommand(cmd.Cmd):
             self.error_message("No instance found")
 
     def do_destroy(self, line):
+        """file to destroy the instance"""
         if not line:
             self.error_message("Class name missing")
             return
@@ -104,6 +114,7 @@ class HBNBCommand(cmd.Cmd):
             self.error_message("No instance found")
 
     def do_all(self, line):
+        """function to show all the data"""
         class_name = line.split()[0] if line else None
         instances = storage.all().values()
 
@@ -114,6 +125,7 @@ class HBNBCommand(cmd.Cmd):
         print([str(instance) for instance in instances])
 
     def do_update(self, line):
+        """function to update the instance"""
         args = line.split()
 
         if len(args) < 3:
