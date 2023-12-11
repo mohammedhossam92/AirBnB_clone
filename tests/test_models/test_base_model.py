@@ -3,6 +3,7 @@
 import os
 import time
 import unittest
+from unittest import mock
 from datetime import datetime
 from models.base_model import BaseModel
 
@@ -29,13 +30,29 @@ class TestBaseModel(unittest.TestCase):
         self.assertIn("'created_at':", str_representation)
         self.assertIn("'updated_at':", str_representation)
 
-    def test_save(self):
-        """Test the save method of the BaseModel instance."""
-        my_model = BaseModel()
-        original_updated_at = my_model.updated_at
+    # def test_save(self):
+    #     """Test the save method of the BaseModel instance."""
+    #     my_model = BaseModel()
+    #     original_updated_at = my_model.updated_at
+    #     time.sleep(0.01)
+    #     my_model.save()
+    #     self.assertNotEqual(original_updated_at, my_model.updated_at)
+
+    @mock.patch('models.storage')
+    def test_save(self, mock_storage):
+        """Test that save method updates `updated_at` and calls
+        `storage.save`"""
+        inst = BaseModel()
+        old_created_at = inst.created_at
+        old_updated_at = inst.updated_at
         time.sleep(0.01)
-        my_model.save()
-        self.assertNotEqual(original_updated_at, my_model.updated_at)
+        inst.save()
+        new_created_at = inst.created_at
+        new_updated_at = inst.updated_at
+        self.assertNotEqual(old_updated_at, new_updated_at)
+        self.assertEqual(old_created_at, new_created_at)
+        self.assertTrue(mock_storage.new.called)
+        self.assertTrue(mock_storage.save.called)
 
     def test_to_dict(self):
         """Test the to_dict method of the BaseModel instance."""
