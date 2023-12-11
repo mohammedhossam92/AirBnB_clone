@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import os
+import time
 import unittest
 from datetime import datetime
 from models.base_model import BaseModel
@@ -32,6 +33,7 @@ class TestBaseModel(unittest.TestCase):
         """Test the save method of the BaseModel instance."""
         my_model = BaseModel()
         original_updated_at = my_model.updated_at
+        time.sleep(0.01)
         my_model.save()
         self.assertNotEqual(original_updated_at, my_model.updated_at)
 
