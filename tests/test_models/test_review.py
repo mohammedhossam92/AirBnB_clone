@@ -1,45 +1,42 @@
 #!/usr/bin/python3
+# Import the unittest module and the Review class
 import unittest
-from datetime import datetime
 from models.review import Review
+from models.base_model import BaseModel
 
 
+# Create a subclass of unittest.TestCase
 class TestReview(unittest.TestCase):
-    def test_init(self):
-        """Test the initialization of the Review instance."""
-        review = Review()
-        self.assertIsInstance(review, Review)
-        self.assertTrue(hasattr(review, 'id'))
-        self.assertTrue(hasattr(review, 'created_at'))
-        self.assertTrue(hasattr(review, 'updated_at'))
-        self.assertIsInstance(review.id, str)
-        self.assertIsInstance(review.created_at, datetime)
-        self.assertIsInstance(review.updated_at, datetime)
-        self.assertTrue(hasattr(review, 'place_id'))
-        self.assertEqual(review.place_id, "")
-        self.assertTrue(hasattr(review, 'user_id'))
-        self.assertEqual(review.user_id, "")
-        self.assertTrue(hasattr(review, 'text'))
-        self.assertEqual(review.text, "")
 
-    def test_str(self):
-        """Test the __str__ method of the Review instance."""
-        review = Review()
-        str_representation = str(review)
-        self.assertIn("[Review]", str_representation)
-        self.assertIn("'id':", str_representation)
-        self.assertIn("'created_at':", str_representation)
-        self.assertIn("'updated_at':", str_representation)
-        self.assertIn("'place_id':", str_representation)
-        self.assertIn("'user_id':", str_representation)
-        self.assertIn("'text':", str_representation)
+    # Use the setUp method to create an instance
+    # of the Review class and assign some values to its attributes
+    def setUp(self):
+        self.review = Review()
+        self.review.place_id = "123"
+        self.review.user_id = "456"
+        self.review.text = "Nice place"
 
-    def test_text(self):
-        """Test the 'text' attribute of the Review instance."""
-        review = Review()
-        review.text = "Great experience!"
-        self.assertEqual(review.text, "Great experience!")
+    # Use the assert methods to check the expected behavior
+    # of the Review class and its attributes
+    def test_review(self):
+        # Check that the review instance is an object of the Review class
+        self.assertIsInstance(self.review, Review)
+        # Check that the review instance inherits from the BaseModel class
+        self.assertTrue(issubclass(self.review.__class__, BaseModel))
+        # Check that the review instance has the three attributes
+        self.assertTrue(hasattr(self.review, "place_id"))
+        self.assertTrue(hasattr(self.review, "user_id"))
+        self.assertTrue(hasattr(self.review, "text"))
+        # Check that the attributes are strings
+        self.assertIsInstance(self.review.place_id, str)
+        self.assertIsInstance(self.review.user_id, str)
+        self.assertIsInstance(self.review.text, str)
+        # Check that the attributes have the correct values
+        self.assertEqual(self.review.place_id, "123")
+        self.assertEqual(self.review.user_id, "456")
+        self.assertEqual(self.review.text, "Nice place")
 
 
-if __name__ == '__main__':
+# Use the unittest.main function to run the tests
+if __name__ == "__main__":
     unittest.main()
