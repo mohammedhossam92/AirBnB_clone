@@ -19,7 +19,7 @@ class HBNBCommand(cmd.Cmd):
 
     def error_message(self, msg):
         """funtion to handle error"""
-        print(f"Error: {msg}")
+        print(f"{msg}")
 
     def emptyline(self):
         """ overwriting the emptyline method """
