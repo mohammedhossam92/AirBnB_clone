@@ -73,5 +73,4 @@ class FileStorage:
         return obj.__dict__
 
 
-my_obj = FileStorage()
-my_obj.save()
+
