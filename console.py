@@ -58,7 +58,7 @@ class HBNBCommand(cmd.Cmd):
     def do_create(self, line):
         """function to create new instance"""
         if not line:
-            self.error_message("Class name missing")
+            self.error_message("** class name missing **")
             return
 
         class_name = line.split()[0]
@@ -66,7 +66,7 @@ class HBNBCommand(cmd.Cmd):
                    "Amenity", "Place", "Review"]
 
         if class_name not in classes:
-            self.error_message("Class doesn't exist")
+            self.error_message("** class doesn't exist **")
             return
 
         new_instance = eval(class_name)()
@@ -76,7 +76,7 @@ class HBNBCommand(cmd.Cmd):
     def do_show(self, line):
         """function to show the data of the instance """
         if not line:
-            self.error_message("Class name missing")
+            self.error_message("** class name missing **")
             return
 
         args = line.split()
@@ -84,7 +84,7 @@ class HBNBCommand(cmd.Cmd):
         instance_id = args[1] if len(args) > 1 else None
 
         if not instance_id:
-            self.error_message("Instance id missing")
+            self.error_message("** instance id missing **")
             return
 
         instance = self.get_instance(class_name, instance_id)
@@ -92,12 +92,12 @@ class HBNBCommand(cmd.Cmd):
         if instance:
             print(instance)
         else:
-            self.error_message("No instance found")
+            self.error_message("** no instance found **")
 
     def do_destroy(self, line):
         """file to destroy the instance"""
         if not line:
-            self.error_message("Class name missing")
+            self.error_message("** class name missing **")
             return
 
         args = line.split()
@@ -105,7 +105,7 @@ class HBNBCommand(cmd.Cmd):
         instance_id = args[1] if len(args) > 1 else None
 
         if not instance_id:
-            self.error_message("Instance id missing")
+            self.error_message("** instance id missing **")
             return
 
         instance = self.get_instance(class_name, instance_id)
@@ -115,7 +115,7 @@ class HBNBCommand(cmd.Cmd):
             del storage.all()[key]
             storage.save()
         else:
-            self.error_message("No instance found")
+            self.error_message("** no instance found **")
 
     def do_all(self, line):
         """function to show all the data"""
@@ -151,7 +151,7 @@ class HBNBCommand(cmd.Cmd):
             setattr(instance, attribute_name, attribute_value)
             instance.save()
         else:
-            self.error_message("No instance found")
+            self.error_message("** no instance found **")
 
 
 if __name__ == '__main__':
