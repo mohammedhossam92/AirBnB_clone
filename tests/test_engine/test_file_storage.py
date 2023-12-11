@@ -17,7 +17,7 @@ class TestFileStorage(unittest.TestCase):
         # Check that the file.json file exists after calling the save method
         storage.save()
         self.assertTrue(os.path.exists(storage.__file_path))
-        
+
     def setUp(self):
         """ Set up test environment """
         del_list = []
