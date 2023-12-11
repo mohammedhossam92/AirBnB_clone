@@ -124,9 +124,9 @@ class HBNBCommand(cmd.Cmd):
 
         if class_name:
             instances = [instance for instance in instances
-                         if instance._class.__name_ == class_name]
+                         if instance.__class__.__name__ == class_name]
 
-        print([str(instance) for instance in instances])
+        print([str(instance) for instance in instances])
 
     def do_update(self, line):
         """function to update the instance"""
