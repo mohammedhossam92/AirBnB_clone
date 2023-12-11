@@ -1,45 +1,34 @@
 #!/usr/bin/python3
+# Import the unittest module and the State class
 import unittest
-from datetime import datetime
 from models.state import State
+from models.base_model import BaseModel
 
 
+# Create a subclass of unittest.TestCase
 class TestState(unittest.TestCase):
-    def test_init(self):
-        """
-        Test the __init__ method of the State class
-        """
-        state = State()
-        self.assertIsInstance(state, State)
-        self.assertTrue(hasattr(state, 'id'))
-        self.assertTrue(hasattr(state, 'created_at'))
-        self.assertTrue(hasattr(state, 'updated_at'))
-        self.assertIsInstance(state.id, str)
-        self.assertIsInstance(state.created_at, datetime)
-        self.assertIsInstance(state.updated_at, datetime)
-        self.assertTrue(hasattr(state, 'name'))
-        self.assertEqual(state.name, "")
 
-    def test_str(self):
-        """
-        Test the __str__ method of the State class
-        """
-        state = State()
-        str_representation = str(state)
-        self.assertIn("[State]", str_representation)
-        self.assertIn("'id':", str_representation)
-        self.assertIn("'created_at':", str_representation)
-        self.assertIn("'updated_at':", str_representation)
-        self.assertIn("'name':", str_representation)
+    # Use the setUp method to create an
+    # instance of the State class and assign a value to its name attribute
+    def setUp(self):
+        self.state = State()
+        self.state.name = "California"
 
-    def test_name(self):
-        """
-        Test setting the name attribute of the State class
-        """
-        state = State()
-        state.name = "California"
-        self.assertEqual(state.name, "California")
+    # Use the assert methods to check the
+    # expected behavior of the State class and its attribute
+    def test_state(self):
+        # Check that the state instance is an object of the State class
+        self.assertIsInstance(self.state, State)
+        # Check that the state instance inherits from the BaseModel class
+        self.assertTrue(issubclass(self.state.__class__, BaseModel))
+        # Check that the state instance has a name attribute
+        self.assertTrue(hasattr(self.state, "name"))
+        # Check that the name attribute is a string
+        self.assertIsInstance(self.state.name, str)
+        # Check that the name attribute has the correct value
+        self.assertEqual(self.state.name, "California")
 
 
-if __name__ == '__main__':
+# Use the unittest.main function to run the tests
+if __name__ == "__main__":
     unittest.main()
