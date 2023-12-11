@@ -7,4 +7,4 @@ class Review(BaseModel):
     """class review that contain the data related to review"""
     place_id = ''
     user_id = ''
-    test = ''
+    text = ''
