@@ -27,12 +27,42 @@ class FileStorage:
             json.dump(self.__objects, f, default=self.obj_to_dict)
 
     def reload(self):
-        """reload data from the file"""
+        """reload function"""
+
+        from models.amenity import Amenity
+        from models.base_model import BaseModel
+        from models.city import City
+        from models.place import Place
+        from models.review import Review
+        from models.state import State
+        from models.user import User
+        class_map = {
+            'BaseModel': BaseModel,
+            'User': User,
+            'Place': Place,
+            'State': State,
+            'City': City,
+            'Amenity': Amenity,
+            'Review': Review
+        }
         try:
-            if os.path.exists(self.__file_path):
-                with open(self.__file_path, 'r') as f:
-                    # Use 'r' mode for reading text
-                    self.__objects = json.load(f)
+            if not os.path.exists(FileStorage.__file_path):
+                return
+            with open(FileStorage.__file_path, 'r') as file:
+                temporary_dict = {}
+                temporary_dict = json.load(file)
+
+                for key, value in temporary_dict.items():
+
+                    # {
+                    # string: {
+                    # "key" : "value",  ==> value {"__class__": }
+                    # }
+                    #
+                    # }
+                    # string(key) = User(**value)  ==> construct user
+                    # instance using **kwargs constructor
+                    self.all()[key] = class_map[value['__class__']](**value)
         except FileNotFoundError:
             pass
 
