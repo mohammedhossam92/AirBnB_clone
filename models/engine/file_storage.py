@@ -71,6 +71,3 @@ class FileStorage:
         if hasattr(obj, 'to_dict'):
             return obj.to_dict()
         return obj.__dict__
-
-
-
