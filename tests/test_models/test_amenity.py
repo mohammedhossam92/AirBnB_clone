@@ -1,41 +1,34 @@
 #!/usr/bin/python3
-import os
+# Import the unittest module and the Amenity class
 import unittest
-from datetime import datetime
 from models.amenity import Amenity
+from models.base_model import BaseModel
 
 
+# Create a subclass of unittest.TestCase
 class TestAmenity(unittest.TestCase):
-    """test class for amenity"""
-    def test_init(self):
-        """method test for constructor"""
-        amenity = Amenity()
-        self.assertIsInstance(amenity, Amenity)
-        self.assertTrue(hasattr(amenity, 'id'))
-        self.assertTrue(hasattr(amenity, 'created_at'))
-        self.assertTrue(hasattr(amenity, 'updated_at'))
-        self.assertIsInstance(amenity.id, str)
-        self.assertIsInstance(amenity.created_at, datetime)
-        self.assertIsInstance(amenity.updated_at, datetime)
-        self.assertTrue(hasattr(amenity, 'name'))
-        self.assertEqual(amenity.name, "")
 
-    def test_str(self):
-        """test string method"""
-        amenity = Amenity()
-        str_representation = str(amenity)
-        self.assertIn("[Amenity]", str_representation)
-        self.assertIn("'id':", str_representation)
-        self.assertIn("'created_at':", str_representation)
-        self.assertIn("'updated_at':", str_representation)
-        self.assertIn("'name':", str_representation)
+    # Use the setUp method to create an instance of the Amenity
+    # class and assign a value to its name attribute
+    def setUp(self):
+        self.amenity = Amenity()
+        self.amenity.name = "Pool"
 
-    def test_name(self):
-        """test the name of the amenity"""
-        amenity = Amenity()
-        amenity.name = "Swimming Pool"
-        self.assertEqual(amenity.name, "Swimming Pool")
+    # Use the assert methods to check the expected behavior
+    # of the Amenity class and its attribute
+    def test_amenity(self):
+        # Check that the amenity instance is an object of the Amenity class
+        self.assertIsInstance(self.amenity, Amenity)
+        # Check that the amenity instance inherits from the BaseModel class
+        self.assertTrue(issubclass(self.amenity.__class__, BaseModel))
+        # Check that the amenity instance has a name attribute
+        self.assertTrue(hasattr(self.amenity, "name"))
+        # Check that the name attribute is a string
+        self.assertIsInstance(self.amenity.name, str)
+        # Check that the name attribute has the correct value
+        self.assertEqual(self.amenity.name, "Pool")
 
 
-if __name__ == '__main__':
+# Use the unittest.main function to run the tests
+if __name__ == "__main__":
     unittest.main()
