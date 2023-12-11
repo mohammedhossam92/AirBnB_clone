@@ -171,33 +171,40 @@ class HBNBCommand(cmd.Cmd):
         """function to update the instance"""
         if not line:
             print("** class name missing **")
-        args = line.split()
-        if len(args) < 2:
+            return
+
+        args_list = line.split(" ")
+        class_name = args_list[0]
+        if not HBNBCommand.class_map.get(class_name):
+            print("** class doesn't exist **")
+            return
+
+        if len(args_list) < 2:
             print("** instance id missing **")
-        if len(args) < 3:
-            self.error_message("** attribute name missing **")
             return
 
-        class_name = args[0]
-        classes = ["BaseModel", "User", "State", "City",
-                   "Amenity", "Place", "Review"]
-
-        if class_name not in classes:
-            self.error_message("** class doesn't exist **")
+        instance_id = args_list[1]
+        instance = storage.all().get(
+                class_name + "." + instance_id)
+        if not instance:
+            print("** no instance found **")
             return
 
-        instance_id = args[1]
-        attribute_name = args[2]
-        attribute_value = args[3] if len(args) > 3 else None
+        if len(args_list) < 3:
+            print("** attribute name missing **")
+            return
 
-        if not attribute_value:
-            self.error_message("** value missing **")
+        instance_attribute = args_list[2]
+
+        if len(args_list) < 4:
+            print("** value missing **")
             return
 
         instance = self.get_instance(class_name, instance_id)
+        instance_attribute_value: str = args_list[3]
 
         if instance:
-            setattr(instance, attribute_name, attribute_value)
+            setattr(instance, instance_attribute, instance_attribute_value)
             instance.save()
         else:
             self.error_message("** no instance found **")
