@@ -75,4 +75,3 @@ class FileStorage:
 
 my_obj = FileStorage()
 my_obj.save()
-
