@@ -117,16 +117,26 @@ class HBNBCommand(cmd.Cmd):
         else:
             self.error_message("No instance found")
 
-    def do_all(self, line):
-        """function to show all the data"""
-        class_name = line.split()[0] if line else None
-        instances = storage.all().values()
+    def do_all(self, arg):
+        """Prints string representations of instances"""
+        classes = ["BaseModel", "User", "State", "City", "Amenity", "Place", "Review"]
 
-        if class_name:
-            instances = [instance for instance in instances
-                         if instance.__class__.__name__ == class_name]
+        # Check if the command is in the correct format
+        if not re.match(r'^\w+\.\w+\(\)$', arg):
+            print("** Invalid command syntax. Use: ClassName.all() **")
+            return False
 
-        print([str(instance) for instance in instances])
+        class_name = arg.split('.')[0]
+        if class_name not in classes:
+            print("** class doesn't exist **")
+            return False
+
+        class_instances = storage.all(class_name)
+        obj_list = [str(instance) for instance in class_instances]
+
+        print("[", end="")
+        print(", ".join(obj_list), end="")
+        print("]")
 
     def do_update(self, line):
         """function to update the instance"""
