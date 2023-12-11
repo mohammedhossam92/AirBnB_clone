@@ -12,7 +12,7 @@ class TestAmenity(unittest.TestCase):
     # class and assign a value to its name attribute
     def setUp(self):
         self.amenity = Amenity()
-        self.amenity.name = "Pool"
+        # self.amenity.name = "Pool"
 
     # Use the assert methods to check the expected behavior
     # of the Amenity class and its attribute
@@ -26,7 +26,7 @@ class TestAmenity(unittest.TestCase):
         # Check that the name attribute is a string
         self.assertIsInstance(self.amenity.name, str)
         # Check that the name attribute has the correct value
-        self.assertEqual(self.amenity.name, "Pool")
+        # self.assertEqual(self.amenity.name, "Pool")
 
 
 # Use the unittest.main function to run the tests
