@@ -133,7 +133,7 @@ class HBNBCommand(cmd.Cmd):
         args = line.split()
 
         if len(args) < 3:
-            self.error_message("Incomplete command")
+            self.error_message("** attribute name missing **")
             return
 
         class_name = args[0]
@@ -142,7 +142,7 @@ class HBNBCommand(cmd.Cmd):
         attribute_value = args[3] if len(args) > 3 else None
 
         if not attribute_value:
-            self.error_message("Value missing")
+            self.error_message("** value missing **")
             return
 
         instance = self.get_instance(class_name, instance_id)
