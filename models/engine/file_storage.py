@@ -71,3 +71,7 @@ class FileStorage:
         if hasattr(obj, 'to_dict'):
             return obj.to_dict()
         return obj.__dict__
+
+
+my_obj = FileStorage()
+my_obj.save()
