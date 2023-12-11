@@ -81,6 +81,12 @@ class HBNBCommand(cmd.Cmd):
 
         args = line.split()
         class_name = args[0]
+        classes = ["BaseModel", "User", "State", "City",
+                   "Amenity", "Place", "Review"]
+
+        if class_name not in classes:
+            self.error_message("** class doesn't exist **")
+            return
         instance_id = args[1] if len(args) > 1 else None
 
         if not instance_id:
@@ -143,6 +149,12 @@ class HBNBCommand(cmd.Cmd):
             return
 
         class_name = args[0]
+        classes = ["BaseModel", "User", "State", "City",
+                   "Amenity", "Place", "Review"]
+
+        if class_name not in classes:
+            self.error_message("** class doesn't exist **")
+            return
         instance_id = args[1]
         attribute_name = args[2]
         attribute_value = args[3] if len(args) > 3 else None
