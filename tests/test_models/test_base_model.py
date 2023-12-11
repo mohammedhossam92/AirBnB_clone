@@ -1,56 +1,67 @@
 #!/usr/bin/python3
-import os
+# Import the unittest module and the BaseModel class
 import unittest
-from datetime import datetime
 from models.base_model import BaseModel
+from datetime import datetime
+import models
 
 
+# Create a subclass of unittest.TestCase
 class TestBaseModel(unittest.TestCase):
-    """Test cases for the BaseModel class."""
-    def test_init(self):
-        """Test the initialization of the BaseModel instance."""
-        my_model = BaseModel()
-        self.assertIsInstance(my_model, BaseModel)
-        self.assertTrue(hasattr(my_model, 'id'))
-        self.assertTrue(hasattr(my_model, 'created_at'))
-        self.assertTrue(hasattr(my_model, 'updated_at'))
-        self.assertIsInstance(my_model.id, str)
-        self.assertIsInstance(my_model.created_at, datetime)
-        self.assertIsInstance(my_model.updated_at, datetime)
 
-    def test_str(self):
-        """Test the __str__ method of the BaseModel instance."""
-        my_model = BaseModel()
-        str_representation = str(my_model)
-        self.assertIn("[BaseModel]", str_representation)
-        self.assertIn("'id':", str_representation)
-        self.assertIn("'created_at':", str_representation)
-        self.assertIn("'updated_at':", str_representation)
+    # Use the setUp method to create an instance of the BaseModel class and
+    # assign some values to its attributes
+    def setUp(self):
+        self.base = BaseModel()
+
+    # Use the assert methods to check the expected behavior of
+    # the BaseModel class and its attributes and methods
+    def test_base_model(self):
+        # Check that the base instance is an object of the BaseModel class
+        self.assertIsInstance(self.base, BaseModel)
+        # Check that the base instance has the id, created_at,
+        # and updated_at attributes
+        self.assertTrue(hasattr(self.base, "id"))
+        self.assertTrue(hasattr(self.base, "created_at"))
+        self.assertTrue(hasattr(self.base, "updated_at"))
+        # Check that the id attribute is a string and unique
+        self.assertIsInstance(self.base.id, str)
+        self.assertNotEqual(self.base.id, BaseModel().id)
+        # Check that the created_at and
+        # updated_at attributes are datetime objects
+        self.assertIsInstance(self.base.created_at, datetime)
+        self.assertIsInstance(self.base.updated_at, datetime)
+        # Check that the number attribute is an
 
     def test_save(self):
-        """Test the save method of the BaseModel instance."""
-        my_model = BaseModel()
-        original_updated_at = my_model.updated_at
-        my_model.save()
-        self.assertNotEqual(original_updated_at, my_model.updated_at)
+        # Check that the save method updates the updated_at attribute
+        old_updated_at = self.base.updated_at
+        self.base.save()
+        new_updated_at = self.base.updated_at
+        self.assertNotEqual(old_updated_at, new_updated_at)
+        # Check that the save method saves the object to the storage
+        self.assertIn(self.base, models.storage.all().values())
 
     def test_to_dict(self):
-        """Test the to_dict method of the BaseModel instance."""
-        my_model = BaseModel()
-        model_dict = my_model.to_dict()
-        self.assertIsInstance(model_dict, dict)
-        self.assertIn('id', model_dict)
-        self.assertIn('created_at', model_dict)
-        self.assertIn('updated_at', model_dict)
-        self.assertIn('__class__', model_dict)
+        time = datetime.utcnow()
+        # Check that the to_dict method returns a dictionary
+        self.assertIsInstance(self.base.to_dict(), dict)
+        # Check that the dictionary has the correct keys and values
+        self.assertEqual(self.base.to_dict()["__class__"], "BaseModel")
+        self.assertEqual(self.base.to_dict()["id"], self.base.id)
+        self.assertEqual(self.base.to_dict()["created_at"],
+                         self.base.created_at.strftime(time))
+        self.assertEqual(self.base.to_dict()["updated_at"], self.base.
+                         updated_at.strftime(time))
+        # Check that the dictionary does not have the _sa_instance_state key
+        self.assertNotIn("_sa_instance_state", self.base.to_dict())
 
-    def test_custom_attributes(self):
-        """Test the addition of custom attributes to the BaseModel instance."""
-        my_model = BaseModel()
-        my_model.name = "ALX"
-        my_model.number = 89
-        self.assertEqual([my_model.name, my_model.number], ["ALX", 89])
+    def test_delete(self):
+        # Check that the delete method removes the object from the storage
+        self.base.delete()
+        self.assertNotIn(self.base, models.storage.all().values())
 
 
-if __name__ == '__main__':
+# Use the unittest.main function to run the tests
+if __name__ == "__main__":
     unittest.main()
