@@ -26,7 +26,7 @@ class HBNBCommand(cmd.Cmd):
         'Amenity': Amenity,
         'Review': Review
     }
-    
+
     def error_message(self, msg):
         """funtion to handle error"""
         print(f"{msg}")
@@ -169,8 +169,11 @@ class HBNBCommand(cmd.Cmd):
 
     def do_update(self, line):
         """function to update the instance"""
+        if not line:
+            print("** class name missing **")
         args = line.split()
-
+        if len(args) < 2:
+            print("** instance id missing **")
         if len(args) < 3:
             self.error_message("** attribute name missing **")
             return
@@ -182,6 +185,7 @@ class HBNBCommand(cmd.Cmd):
         if class_name not in classes:
             self.error_message("** class doesn't exist **")
             return
+
         instance_id = args[1]
         attribute_name = args[2]
         attribute_value = args[3] if len(args) > 3 else None
