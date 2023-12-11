@@ -9,6 +9,15 @@ import os
 class TestFileStorage(unittest.TestCase):
     """ Class to test the file storage method """
 
+    def test_file_path(self):
+        # Check that the __file_path variable is a string
+        self.assertIsInstance(storage.__file_path, str)
+        # Check that the __file_path variable matches the expected file name
+        self.assertEqual(storage.__file_path, "file.json")
+        # Check that the file.json file exists after calling the save method
+        storage.save()
+        self.assertTrue(os.path.exists(storage.__file_path))
+        
     def setUp(self):
         """ Set up test environment """
         del_list = []
