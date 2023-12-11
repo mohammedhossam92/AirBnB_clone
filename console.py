@@ -17,6 +17,16 @@ class HBNBCommand(cmd.Cmd):
     """class HBNB that run the console module"""
     prompt = '(hbnb) '
 
+    class_map = {
+        'BaseModel': BaseModel,
+        'User': User,
+        'Place': Place,
+        'State': State,
+        'City': City,
+        'Amenity': Amenity,
+        'Review': Review
+    }
+    
     def error_message(self, msg):
         """funtion to handle error"""
         print(f"{msg}")
@@ -129,16 +139,33 @@ class HBNBCommand(cmd.Cmd):
         else:
             self.error_message("** no instance found **")
 
-    def do_all(self, line):
+    def do_all(self, args):
         """function to show all the data"""
-        class_name = line.split()[0] if line else None
-        instances = storage.all().values()
+        # class_name = line.split()[0] if line else None
+        # instances = storage.all().values()
+        #
+        # if class_name:
+        #     instances = [instance for instance in instances
+        #                  if instance.__class__.__name__ == class_name]
+        #
+        # print([str(instance) for instance in instances])
+        if args and not HBNBCommand.class_map.get(args):
+            print("** class doesn't exist **")
+            return
 
-        if class_name:
-            instances = [instance for instance in instances
-                         if instance.__class__.__name__ == class_name]
-
-        print([str(instance) for instance in instances])
+        # result = {}
+        # result.update(storage.all())
+        if args:
+            result = []
+            for key, value in storage.all().items():
+                if key.split(".")[0] == args:
+                    result.append(str(value))
+                    print(result)
+        else:
+            result = []
+            for key, value in storage.all().items():
+                result.append(str(value))
+                print(result)
 
     def do_update(self, line):
         """function to update the instance"""
