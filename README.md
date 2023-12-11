@@ -1,4 +1,4 @@
-<center> <h2>General Use</h2> </center>
+<center> <h2>General_Use</h2> </center>
 
 1. First clone this repository.
 
